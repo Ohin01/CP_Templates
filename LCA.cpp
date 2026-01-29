@@ -14,7 +14,7 @@ typedef vector<vll>     vvll;
 const int MAX = 1e4 + 5;
 
 vvll graph(MAX);
-vvll par(MAX, vll(20, -1));
+vvll par(MAX, vll(20, 0));
 vll depth(MAX, 0);
 
 void dfs(ll node, ll parent)
@@ -35,13 +35,13 @@ void fillAncestor(int n)
 {
     FOR(i, 1, 20)
     {
-        FOR(j, 0, n)
+        FOR(j, 1, n + 1)
         {
-            if (par[j][i - 1] != -1)
+            if (par[j][i - 1] != 0)
             par[j][i] = par[ par[j][i - 1] ][i - 1];
 
             else
-            par[j][i] = -1;
+            par[j][i] = 0;
         }
     }
 }
@@ -56,7 +56,7 @@ int kthAncestor(int node, int k)
         {
             ans = par[ans][i];
 
-            if (ans == -1) return -1;
+            if (ans == 0) return 0;
         }
     }
 
