@@ -8,25 +8,10 @@ typedef vector<vi>      vvi;
 typedef vector<ll>      vll;
 typedef vector<vll>     vvll;
 typedef vector<bool>    vb;
-typedef vector<vb>      vvb;
-typedef pair<int, int>  pi;
-typedef vector<pi>      vpi;
-typedef pair<ll, ll>    pll;
-typedef vector<pll>     vpll;
 
 #define pb              push_back
-#define ff              first
-#define ss              second
-#define index           find_by_order
 #define FOR(i, a, b)    for(ll i = (a); i < (b); i++)
-#define FORR(i, a, b)    for(ll i = (a); i >= (b); i--)
-#define YES             cout << "YES\n"
-#define NO              cout << "NO\n"
-#define lcm(a, b)       ((a / __gcd(a, b)) * b)
- 
-const ll MOD = 1e9 + 7;//998244353;
-const ll INF = 9e18;
-const ld PI = acos((ld) -1);
+
 const int MAX = 2e5 + 5;
 const int MX = 1e6 + 5;
 

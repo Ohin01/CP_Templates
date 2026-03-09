@@ -3,7 +3,8 @@ using namespace std;
 
 typedef long long ll;
 
-struct DSU {
+struct DSU 
+{
     vector<ll> par, rnk, sz;
     ll c;
     DSU(ll n) : par(n + 1), rnk(n + 1, 0), sz(n + 1, 1), c(n) {
