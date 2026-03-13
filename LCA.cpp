@@ -11,9 +11,9 @@ typedef vector<vll>     vvll;
 #define FOR(i, a, b)    for(ll i = (a); i < (b); i++)
 #define FORR(i, a, b)    for(ll i = (a); i >= (b); i--)
 
-const int MAX = 1e4 + 5;
+const int MAX = 2e5 + 5;
 
-vvll graph(MAX);
+vll graph[MAX];
 vvll par(MAX, vll(20, 0));
 vll depth(MAX, 0);
 
