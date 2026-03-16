@@ -9,7 +9,7 @@ struct SegTree
     ll sz = 0;
     vll res;
 
-    SegTree(int n)
+    void init(int n)
     {
         sz = 1;
         while (sz < n) sz *= 2;
@@ -76,6 +76,5 @@ struct SegTree
 
 int main(void)
 {
-    return 0;
+    
 }
-

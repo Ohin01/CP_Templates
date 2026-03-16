@@ -10,7 +10,7 @@ struct SegTree
     vll res;
     vll lazy;
 
-    SegTree(int n)
+    void init(int n)
     {
         sz = 1;
         while (sz < n) sz *= 2;
