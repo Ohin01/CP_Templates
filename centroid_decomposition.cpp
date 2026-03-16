@@ -15,10 +15,8 @@ int depth[MAX];
 
 int sz[MAX];
 int done[MAX];
-int cenpar[MAX]; // Parent of node in Centroid Tree
+int cenpar[MAX];
 int tot;
-
-int best_dist[MAX]; 
 
 void dfs_lca(int node, int p) 
 {
@@ -54,8 +52,7 @@ int kthAncestor(int node, int k)
     {
         if ((k & (1<<i)) != 0)
         {
-            ans = par[ans][i];
-
+            ans = par[ans][i]; 
             if (ans == 0) return 0;
         }
     }
@@ -65,15 +62,12 @@ int kthAncestor(int node, int k)
 
 int LCA(int n1, int n2)
 {
-    if (depth[n1] > depth[n2])
-    swap(n1, n2);
+    if (depth[n1] > depth[n2]) swap(n1, n2);
 
     int diff = depth[n2] - depth[n1];
-
     n2 = kthAncestor(n2, diff);
 
-    if (n1 == n2)
-    return n1;
+    if (n1 == n2) return n1;
 
     FORR(i, LOGN - 1, 0)
     {
@@ -87,24 +81,25 @@ int LCA(int n1, int n2)
     return par[n1][0];
 }
 
-int get_dist(int u, int v) {
+int get_dist(int u, int v) 
+{
     if (u <= 0 || v <= 0) return INF; 
     return depth[u] + depth[v] - 2 * depth[LCA(u, v)];
 }
 
-void calc_sz(int u, int p) 
+void calc_sz(int u, int p) //always calc the new sizes
 {
     tot++;
     sz[u] = 1;
     for (auto v : g[u]) 
     {
-        if (v == p || done[v]) continue;
+        if (v == p || done[v]) continue; //done means its a centroid
         calc_sz(v, u);
         sz[u] += sz[v];
     }
 }
 
-int find_cen(int u, int p) 
+int find_cen(int u, int p) //typical centroid find
 {
     for (auto v : g[u]) 
     {
@@ -122,10 +117,12 @@ void decompose(int u, int pre)
     
     cenpar[cen] = pre; // pre is the parent in the Centroid Tree
     done[cen] = 1;
+
+    //Do operation here right after breaking into components
     
     for (auto v : g[cen]) 
     {
-        if (!done[v]) decompose(v, cen);
+        if (!done[v]) decompose(v, cen); //decompose rest
     }
 }
 
