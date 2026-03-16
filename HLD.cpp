@@ -96,7 +96,7 @@ void dfs(int node, int p = 0)
     par[node][0] = p;
     sz[node] = 1;
 
-    if (p != 0) g[node].erase(find(g[node].begin(), g[node].end(), p));
+    if (p != 0) g[node].erase(find(g[node].begin(), g[node].end(), p)); //erase the parent
 
     for (auto &ch: g[node])
     {
@@ -106,7 +106,7 @@ void dfs(int node, int p = 0)
         dfs(ch, node);
         sz[node] += sz[ch];
 
-        if(sz[ch] > sz[g[node][0]]) swap(ch, g[node][0]);
+        if(sz[ch] > sz[g[node][0]]) swap(ch, g[node][0]); //heavy child is always the first child
     }
 }
 
@@ -168,7 +168,7 @@ void dfs_hld(int node)
 
     for (auto ch: g[node]) 
     {
-        if (ch == g[node][0]) head[ch] = head[node];
+        if (ch == g[node][0]) head[ch] = head[node]; //head means top of the heavy chain
         else head[ch] = ch;
        
         dfs_hld(ch);
@@ -177,11 +177,11 @@ void dfs_hld(int node)
     en[node] = T;
 }
 
-int query_up(int u, int v) 
+int query_up(int u, int v) //v is lca
 {
     ll ans = -INF;
 
-    while(head[u] != head[v]) 
+    while(head[u] != head[v]) //untill u and v are in the same heavy path
     {
         ans = max(ans, t.getRes(st[head[u]], st[u], 0, 0, t.sz - 1));
         u = par[head[u]][0];
@@ -196,7 +196,7 @@ int query(int u, int v)
     int lca = LCA(u, v);
     int ans = query_up(u, lca);
 
-    if (v != lca) ans = max(ans, query_up(v, kthAncestor(v, depth[v] - depth[lca] - 1)));
+    if (v != lca) ans = max(ans, query_up(v, kthAncestor(v, depth[v] - depth[lca] - 1))); //dont include lca
     return ans;
 }
 
@@ -213,8 +213,10 @@ int32_t main()
         g[v].push_back(u);
     }
 
-    t.init(n);
     dfs(1);
+    fillAncestor(n);
     head[1] = 1;
     dfs_hld(1);
+
+    t.init(n + 1);
 }

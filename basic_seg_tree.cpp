@@ -40,11 +40,11 @@ struct SegTree
         res[x] = operation(res[2 * x + 1], res[2 * x + 2]);
     }
 
-    void assign(int i, int v, int x, int lx, int rx)
+    void assign(int i, ll v, int x, int lx, int rx)
     {
         if (lx == rx)
         {
-            res[x] = v;;
+            res[x] = v;
             return;
         }
 
