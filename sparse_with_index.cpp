@@ -6,7 +6,7 @@ int a[N];
 pair<int, int> t2[N][18]; // {value, index}
 
 pair<int, int> combine(pair<int, int> L, pair<int, int> R) {
-    int val = min(L.first, R.first);
+    int val = max(L.first, R.first);
 
     if (val == L.first && val == R.first)
         return {val, min(L.second, R.second)};
