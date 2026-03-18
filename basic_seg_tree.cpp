@@ -8,15 +8,17 @@ struct SegTree
 {
     ll sz = 0;
     vll res;
+    ll dummy;
 
-    void init(int n)
+    void init(int n, ll d)
     {
+        dummy = d;
         sz = 1;
         while (sz < n) sz *= 2;
-        res.assign(sz * 2, 0);
+        res.assign(sz * 2, d);
     }
 
-    ll operation(ll a, ll b)
+    ll op(ll a, ll b)
     {
         return a + b;
     }
@@ -29,7 +31,7 @@ struct SegTree
             res[x] = a[lx];
 
             else
-            res[x] = 0;
+            res[x] = dummy;
             return; 
         }
 
@@ -37,10 +39,10 @@ struct SegTree
         build(a, 2 * x + 1, lx, mid);
         build(a, 2 * x + 2, mid + 1, rx);
 
-        res[x] = operation(res[2 * x + 1], res[2 * x + 2]);
+        res[x] = op(res[2 * x + 1], res[2 * x + 2]);
     }
 
-    void assign(int i, ll v, int x, int lx, int rx)
+    void update(int i, ll v, int x, int lx, int rx)
     {
         if (lx == rx)
         {
@@ -50,17 +52,17 @@ struct SegTree
 
         ll mid = (lx + rx) / 2;
 
-        if (i <= mid) assign(i, v, 2 * x + 1, lx, mid);
-        else assign(i, v, 2 * x + 2, mid + 1, rx);
+        if (i <= mid) update(i, v, 2 * x + 1, lx, mid);
+        else update(i, v, 2 * x + 2, mid + 1, rx);
 
-        res[x] = operation(res[2 * x + 1], res[2 * x + 2]);
+        res[x] = op(res[2 * x + 1], res[2 * x + 2]);
     }
 
-    ll getRes(int l, int r, int x, int lx, int rx)
+    ll query(int l, int r, int x, int lx, int rx)
     {
         if (r < lx || rx < l) 
         {
-            return 0;
+            return dummy;
         }
 
         if (lx >= l && rx <= r)
@@ -70,7 +72,23 @@ struct SegTree
 
         ll mid = (lx + rx) / 2;
 
-        return operation(getRes(l, r, 2 * x + 1, lx, mid), getRes(l, r, 2 * x + 2, mid + 1, rx));
+        return op(query(l, r, 2 * x + 1, lx, mid), query(l, r, 2 * x + 2, mid + 1, rx));
+    }
+
+    //first value greater than v, or lower_bound of prefix sum v, or kth number
+    ll walk (ll v, int x, int lx, int rx)
+    {
+        if (res[x] < v) return -1;
+
+        if (lx == rx)
+        {
+            return lx;
+        }
+
+        ll mid = (lx + rx) / 2;
+
+        if (res[2 * x + 1] < v) return walk(v - res[2 * x + 1], 2 * x + 2, mid + 1, rx);
+        else return walk(v, 2 * x + 1, lx, mid);
     }
 };
 

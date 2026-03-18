@@ -50,12 +50,12 @@ struct FenTree // 1-based currently
 
     int lowerBound(int v)
     {
-        int pos = 0;
+        int pos = 0; // pos = -1
         ll tot = 0;
 
         FORR(i, LOGN, 0)
         {
-            if (pos + (1<<i) <= sz && tot + sum[pos + (1<<i)] < v)
+            if (pos + (1<<i) <= sz && tot + sum[pos + (1<<i)] < v)  // < sz
             {
                 tot += sum[pos + (1<<i)];
                 pos += (1<<i);
@@ -64,6 +64,7 @@ struct FenTree // 1-based currently
         return pos + 1; //pos gives the highest lower number
     }
 };
+
 
 
 

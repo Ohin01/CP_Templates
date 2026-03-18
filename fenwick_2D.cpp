@@ -3,26 +3,22 @@
 using namespace std;
 
 template <typename T> 
-class BIT2D 
+struct BIT2D 
 {
-  private:
 	const int n, m;
 	vector<vector<T>> bit;
 
-  public:
 	BIT2D(int n, int m) : n(n), m(m), bit(n + 1, vector<T>(m + 1)) {}
 
 	/** adds val to the point (r, c) */
 	void add(int r, int c, T val) {
-		r++, c++;
 		for (; r <= n; r += r & -r) {
 			for (int i = c; i <= m; i += i & -i) { bit[r][i] += val; }
 		}
 	}
 
-	/** @returns sum of points with row in [0, r] and column in [0, c] */
+	/** @returns sum of points with row in [1, r] and column in [1, c] */
 	T rect_sum(int r, int c) {
-		r++, c++;
 		T sum = 0;
 		for (; r > 0; r -= r & -r) {
 			for (int i = c; i > 0; i -= i & -i) { sum += bit[r][i]; }
