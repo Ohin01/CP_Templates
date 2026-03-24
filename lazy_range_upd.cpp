@@ -11,16 +11,18 @@ struct SegTree
     ll sz = 0;
     vll res;
     vll lazy;
+    ll dummy;
 
-    void init(int n)
+    void init(int n, ll d)
     {
+        dummy = d;
         sz = 1;
         while (sz < n) sz *= 2;
-        res.assign(sz * 2, 0);
+        res.assign(sz * 2, d);
         lazy.assign(sz * 2, INF);
     }
 
-    ll operation(ll a, ll b)
+    ll op(ll a, ll b)
     {
         return a + b;
     }
@@ -50,7 +52,7 @@ struct SegTree
             res[x] = a[lx];
 
             else
-            res[x] = 0;
+            res[x] = dummy;
             return; 
         }
 
@@ -58,7 +60,7 @@ struct SegTree
         build(a, 2 * x + 1, lx, mid);
         build(a, 2 * x + 2, mid + 1, rx);
 
-        res[x] = operation(res[2 * x + 1], res[2 * x + 2]);
+        res[x] = op(res[2 * x + 1], res[2 * x + 2]);
     }
 
     void update(int l, int r, ll v, int x, int lx, int rx)
@@ -78,7 +80,7 @@ struct SegTree
         update(l, r, v, 2 * x + 1, lx, mid);
         update(l, r, v, 2 * x + 2, mid + 1, rx);
 
-        res[x] = operation(res[2 * x + 1], res[2 * x + 2]);
+        res[x] = op(res[2 * x + 1], res[2 * x + 2]);
     }
 
     ll getRes(int l, int r, int x, int lx, int rx)
@@ -87,7 +89,7 @@ struct SegTree
         
         if (r < lx || rx < l) 
         {
-            return 0;
+            return dummy;
         }
 
         if (lx >= l && rx <= r)
@@ -97,7 +99,7 @@ struct SegTree
 
         ll mid = (lx + rx) / 2;
 
-        return operation(getRes(l, r, 2 * x + 1, lx, mid), getRes(l, r, 2 * x + 2, mid + 1, rx));
+        return op(getRes(l, r, 2 * x + 1, lx, mid), getRes(l, r, 2 * x + 2, mid + 1, rx));
     }
 };
 

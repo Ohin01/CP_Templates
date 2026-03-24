@@ -7,28 +7,18 @@ typedef vector<ll> vll;
 const int MX = 1e6 + 9; 
 int root[MX];
 
+struct Node
+{
+    int left = 0;
+    int right = 0;
+    ll val = 0;
+};
+
+Node nodes[MX * 40];
+
 struct PerSegTree
 {
-    struct Node
-    {
-        int left = 0;
-        int right = 0;
-        ll val = 0;
-    };
-
-    Node nodes[MX * 20];
     int id = 0;
-
-    // vector<Node> nodes;
-    // int id = 0;
-    // int sz = 0;
-
-    // PerSegTree(int n)
-    // {
-    //     sz = 1;
-    //     while (sz < n) sz *= 2;
-    //     nodes.assign(sz * 20, {0, 0, 0});
-    // }
 
     int build(vll &a, int lx, int rx)
     {
@@ -65,14 +55,9 @@ struct PerSegTree
         int mid = (lx + rx) / 2;
 
         if (i <= mid) 
-        {
             nodes[cur].left = update(nodes[cur].left, i, v, lx, mid);
-        }
-
         else
-        {
             nodes[cur].right = update(nodes[cur].right, i, v, mid + 1, rx);
-        }
 
         nodes[cur].val = nodes[nodes[cur].left].val + nodes[nodes[cur].right].val;
         return cur;
@@ -94,12 +79,42 @@ struct PerSegTree
 
         return getSum(nodes[cur].left, l, r, lx, mid) + getSum(nodes[cur].right, l, r, mid + 1, rx);
     }
+
+    ll kth(int u, int v, int k, int lx, int rx, vector<ll> &sortedA) //0-based
+    {
+        if(lx == rx) return sortedA[lx];
+
+        int mid = (lx + rx) / 2;
+
+        int cnt = nodes[nodes[v].left].val - nodes[nodes[u].left].val;
+
+        if(k <= cnt) 
+            return kth(nodes[u].left, nodes[v].left, k, lx, mid, sortedA);
+        else
+            return kth(nodes[u].right, nodes[v].right, k - cnt, mid + 1, rx, sortedA);
+    }
 };
 
 
 void solve()
 {
-    
+    int n, q;
+    cin >> n >> q;
+    vector<ll> A(n);
+    for(int i = 0; i < n; i++) cin >> A[i];
+
+    vll sortedA; //compress A here
+    ll sz = sortedA.size();
+
+    PerSegTree pst;
+    vll empty(sz, 0);
+    root[0] = pst.build(empty, 0, sz - 1);
+
+    for(int i = 0; i < n; i++)
+    {
+        ll val; //compress A[i]
+        root[i + 1] = pst.update(root[i], val, 1, 0, sz - 1);
+    }
 }
 
 int main(void)

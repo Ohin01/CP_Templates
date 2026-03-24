@@ -65,9 +65,6 @@ struct FenTree // 1-based currently
     }
 };
 
-
-
-
 void solve()
 {
     

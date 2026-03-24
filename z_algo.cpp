@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<int> z_function(string s) {
+vector<int> z_function(string s) 
+{
     int n = (int) s.length();
     vector<int> z(n);
     for (int i = 1, l = 0, r = 0; i < n; ++i) {
