@@ -6,7 +6,7 @@ struct Trie
     static const int B = 31;
     struct Node
     {
-        Node*nxt[2];
+        Node* nxt[2];
         int sz;
         Node()
         {
@@ -28,10 +28,23 @@ struct Trie
         cur->sz++;
         for (int i = B - 1; i >= 0; i--)
         {
-            int b = (1<<i) & val ? 1 : 0;
+            int b = (1LL<<i) & val ? 1 : 0;
             if (cur->nxt[b] == NULL) cur->nxt[b] = new Node();
             cur = cur->nxt[b];
             cur->sz++;
+        }
+    }
+
+    void erase(int val) //make sure to continue cur->sz == 0 while query
+    {
+        Node *cur = root;
+        cur->sz--;
+
+        for(int i = B - 1; i >= 0; i--)
+        {
+            int b = (1LL<<i) & val ? 1 : 0;
+            cur = cur->nxt[b];
+            cur->sz--;
         }
     }
 
@@ -42,7 +55,7 @@ struct Trie
         for (int i = B - 1; i >= 0; i--)
         {
             if (cur == NULL) break;
-            int b1 = (1<<i) & x ? 1 : 0, b2 = (1<<i) & k ? 1 : 0;
+            int b1 = (1LL<<i) & x ? 1 : 0, b2 = (1LL<<i) & k ? 1 : 0;
             if (b2 == 1)
             {
                 if (cur->nxt[b1]) ans += cur->nxt[b1]->sz;
@@ -59,7 +72,7 @@ struct Trie
         int ans = 0;
         for (int i = B - 1; i >= 0; i--)
         {
-            int k = (1<<i) & x ? 1 : 0;
+            int k = (1LL<<i) & x ? 1 : 0;
             if (cur->nxt[!k]) cur = cur->nxt[!k], ans <<= 1, ans++;
             else cur = cur->nxt[k], ans <<= 1;
         }
@@ -72,7 +85,7 @@ struct Trie
         int ans = 0;
         for (int i = B - 1; i >= 0; i--)
         {
-            int k = (1<<i) & x ? 1 : 0;
+            int k = (1LL<<i) & x ? 1 : 0;
             if (cur->nxt[k]) cur = cur->nxt[k], ans <<= 1;
             else cur = cur->nxt[!k], ans <<= 1, ans++;
         }
