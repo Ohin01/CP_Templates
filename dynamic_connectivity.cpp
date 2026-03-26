@@ -2,6 +2,7 @@
 using namespace std;
 
 typedef long long ll;
+const int MAX = 2e5 + 5;
 
 struct DSU_Rollback 
 {
@@ -96,3 +97,52 @@ struct DSU_Rollback
         }
     }
 };
+
+vector<pair<ll,ll>> seg[4 * MAX]; // segment tree storing edges
+ll ans[MAX];
+
+DSU_Rollback dsu;
+
+void add_edge(int l, int r, pair<ll,ll> e, int x, int lx, int rx) // add edge to interval [l, r]
+{
+    if (rx < l || r < lx) return;
+
+    if (lx >= l && rx <= r)
+    {
+        seg[x].push_back(e);
+        return;
+    }
+
+    int mid = (lx + rx) / 2;
+    add_edge(l, r, e, 2 * x + 1, lx, mid);
+    add_edge(l, r, e, 2 * x + 2, mid + 1, rx);
+}
+
+/* DFS on segment tree */
+void dfs(int x, int lx, int rx)
+{
+    int snap = dsu.snapshot();
+
+    // apply edges active in this segment
+    for (auto &e : seg[x])
+        dsu.merge(e.first, e.second);
+
+    if (lx == rx)
+    {
+        ans[lx] = dsu.count();
+        dsu.rollback_to(snap);
+        return;
+    }
+
+    int mid = (lx + rx) / 2;
+
+    dfs(2 * x + 1, lx, mid);
+    dfs(2 * x + 2, mid + 1, rx);
+
+    dsu.rollback_to(snap);
+}
+
+int main()
+{
+    
+}
