@@ -144,5 +144,8 @@ void dfs(int x, int lx, int rx)
 
 int main()
 {
-    
+    int n;
+    cin >> n;
+
+    dsu = DSU_Rollback(n);
 }
