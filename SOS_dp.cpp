@@ -3,8 +3,8 @@ using namespace std;
 
 int main() 
 {
-    int n = 3;           // number of bits
-    int N = 1 << n;      // total masks
+    int n = 3;
+    int N = 1 << n;      
     vector<int> A(N), f(N);
 
     // Example values
