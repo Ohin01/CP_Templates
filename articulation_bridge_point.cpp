@@ -33,10 +33,7 @@ void articulation_bridge(ll node, ll par)
     {
         if (child == par) continue;
 
-        if (vis[child])
-        {
-            low[node] = min(low[node], intime[child]);
-        }
+        if (vis[child]) low[node] = min(low[node], intime[child]);
 
         else
         {
@@ -62,10 +59,7 @@ void articulation_point(ll node, ll par)
     {
         if (child == par) continue;
 
-        if (vis[child])
-        {
-            low[node] = min(low[node], intime[child]);
-        }
+        if (vis[child]) low[node] = min(low[node], intime[child]);
 
         else
         {
