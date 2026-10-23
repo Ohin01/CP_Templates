@@ -24,6 +24,11 @@ struct Node
         line = v;
         left = right = NULL;
     }
+
+    ~Node() {
+        delete left;
+        delete right;
+    }
 };
 
 struct LiChao 
@@ -95,6 +100,10 @@ struct LiChao
             return min(res, query_point(x, mid + 1, rx, node->right));
 
         return res;
+    }
+
+    ~LiChao() {
+        delete root; 
     }
 };
 

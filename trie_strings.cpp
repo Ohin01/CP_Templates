@@ -3,7 +3,8 @@ using namespace std;
 
 struct Trie {
     static const int ALPH = 26; // lowercase letters a-z
-    struct Node {
+    struct Node 
+    {
         Node* nxt[ALPH];
         int sz;        // number of strings passing through this node
         int ends_here; // number of strings ending at this node
@@ -15,12 +16,14 @@ struct Trie {
 
     Node* root;
 
-    Trie() {
+    Trie() 
+    {
         root = new Node();
     }
 
     // Insert a string into trie
-    void insert(const string& s) {
+    void insert(const string& s) 
+    {
         Node* cur = root;
         cur->sz++;
         for (char c : s) {
@@ -33,7 +36,8 @@ struct Trie {
     }
 
     // Count exact occurrences of a string
-    int search(const string& s) {
+    int search(const string& s) 
+    {
         Node* cur = root;
         for (char c : s) {
             int idx = c - 'a';
@@ -44,9 +48,11 @@ struct Trie {
     }
 
     // Count number of strings with given prefix
-    int count_prefix(const string& prefix) {
+    int count_prefix(const string& prefix) 
+    {
         Node* cur = root;
-        for (char c : prefix) {
+        for (char c : prefix) 
+        {
             int idx = c - 'a';
             if (!cur->nxt[idx]) return 0;
             cur = cur->nxt[idx];

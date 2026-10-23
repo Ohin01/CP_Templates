@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\title{\textbf{Combi Notes}}
+\date{}
+\maketitle
+
+\section*{Derrangement}
+
+\textbf{Derangements recurrence relation}
+\[
+D_n = (n - 1)(D_{n-1} + D_{n-2})
+\]
+
+\textbf{Derangements explicit formula}
+\[
+D_n = n! - \binom{n}{1}(n - 1)! + \binom{n}{2}(n - 2)! - \dots + (-1)^n \binom{n}{n} 0!
+\]
+
+\textbf{ $n$ length derangement with exactly $k$ excedents}
+\[
+dp[n][k] = (n - 1) * dp[n - 2][k - 1] + (n - k) * dp[n - 1][k - 1] + k * dp[n - 1][k]
+\]
+
+\textbf{Eulerian numbers recurrence:} n-length permutation with exactly k-excedents
+\[
+A(n, k) = (k + 1)A(n - 1, k) + (n - k)A(n - 1, k - 1)
+\]
+
+\section*{Stirling Number + Stars and Bars}
+
+\textbf{$n$-distinct objects into $k$ non-empty sets.(order doesn't matter)}
+\[
+S(n, k) = k \cdot S(n - 1, k) + S(n - 1, k - 1)
+\]
+
+\textbf{Color n-distinct balls with exactly \(k\) colors used from \(m\) available colors:}
+
+\[
+\binom{m}{k} * k! * S(n,k)
+\]
+
+\textbf{Number of permutations of $n$ elements with exactly $k$ cycles}
+\[
+c(n, k) = (n - 1)c(n - 1, k) + c(n - 1, k - 1)
+\]
+
+$n$ identical objects and $k$ non-empty distinct bins ($n-1$ stars and $k-1$ bars)
+\begin{equation}
+\text{Number of ways} = \binom{n-1}{k-1}
+
+$n$ identical objects and $k$ distinct bins ($n$ stars and $k-1$ bars)
+\begin{equation}
+\text{Number of ways} = \binom{n+k-1}{k-1} = \binom{n+k-1}{n}
+
+\textbf{Case 1: Non-negative bounds} ($0 \le x_i \le k$)
+\begin{itemize}
+    \item \textbf{Bad-variable shift:} $x_i \ge k + 1$
+    \item \textbf{Formula term:}
+    \[
+    \binom{s - i(k + 1) + n - 1}{n - 1}
+    \]
+\end{itemize}
+
+\textbf{Case 2: Positive bounds} ($1 \le x_i \le k$)
+\begin{itemize}
+    \item \textbf{Bad-variable shift:} $x_i \ge k + 1 \to \text{after } y_i = x_i - 1,\, y_i \ge k$
+    \item \textbf{Formula term:}
+    \[
+    \boxed{\binom{s - ik - 1}{n - 1}}
+    \]
+\end{itemize}
+
+\section*{Convolution}
+\textbf{Going over all partitions summing to $s$:}
+\[
+f[t][s] = \sum_{i=0}^{s} f[t - 1][s - i] \cdot dp[i]
+\]
+
+\section*{Convex Hull Trick / Li Chao Tree}
+
+\textbf{CHT/Li Chao Tree eqn, mixed $\rightarrow$ slope, only $j \rightarrow$ intercept, constant $\rightarrow$ only $i$}
+\[
+Cost = \underbrace{(cost_j \cdot x_i)}_{\text{Mixed}} + \underbrace{(dp_j - cost_j \cdot x_j)}_{\text{Only } j} + \underbrace{toll_i}_{\text{Only } i}
+\]
+
+\section*{Catalan Numbers / Dyck Path}
+
+$(1, 1)$ and $(1, -1)$ movement but cant go below $y = 0$.
+$(0, 0) \rightarrow (2n, 0)$ \\
+if bad path, bijection: go from $(0, 0) \rightarrow (2n, -2)$, reflect at first $-1$
+\[
+C_n = \frac{1}{n + 1} \binom{2n}{n}
+\]
+\[
+C_0 = 1, \quad C_{n+1} = \sum_{i=0}^{n} C_i C_{n-i}
+\]
+
+\[
+C_{n+1} = \frac{2(2n + 1)}{n + 2} C_n
+\]
+
+\end{document}

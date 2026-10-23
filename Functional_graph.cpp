@@ -1,30 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-
-template<typename dataType>
-using ordered_set = tree<dataType, null_type, less<dataType>, rb_tree_tag, tree_order_statistics_node_update>;
-template<typename dataType1, typename dataType2>
-using ordered_map = tree<dataType1, dataType2, less<dataType1>, rb_tree_tag, tree_order_statistics_node_update>;
-template<typename dataType>
-using ordered_multiset = tree<dataType, null_type, less_equal<dataType>, rb_tree_tag, tree_order_statistics_node_update>;
-
-struct custom_hash {
-    static uint64_t splitmix64(uint64_t x) {
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-    size_t operator()(uint64_t x) const {
-        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
-
 typedef long long       ll;
 typedef long double     ld;
 typedef vector<int>     vi;
@@ -53,33 +29,6 @@ const ll INF = 9e18;
 const ld PI = acos((ld) -1);
 const int MAX = 2e5 + 5;
 const int MX = 1e6 + 5;
-
-ll Bigmod(ll a, ll b, ll m){
-    if(b == 0) return 1 % m;
-    ll x = Bigmod(a, b / 2LL, m);
-    x = (x * x) % m;
-    if(b % 2 == 1) x = (x * a) % m;
-    return x;
-}
-
-ll fact[MX];
-ll inv[MX];
-vpll mv = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-
-void pre(){
-    fact[0]=1;
-    inv[0]=1;
-    FOR(i, 1, MX){
-        fact[i] = (i * fact[i - 1])% MOD;
-        inv[i] = Bigmod(fact[i], MOD - 2LL, MOD);
-    }
-}
-
-ll nCr(ll n, ll r, ll p) { 
-    if(r > n || r < 0) return 0;
-    if(n == r || r == 0) return 1;
-    return (((fact[n] * inv[r]) % p ) * inv[n - r]) % p;
-}
 
 int nxt[MAX];
 int state[MAX];
