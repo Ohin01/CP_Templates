@@ -80,13 +80,11 @@ ll Bigmod(ll a, ll b, ll m){
     return x;
 }
 
-void pre(){
-    fact[0]=1;
-    inv[0]=1;
-    FOR(i, 1, MX){
-        fact[i] = (i * fact[i - 1])% MOD;
-        inv[i] = Bigmod(fact[i], MOD - 2LL, MOD);
-    }
+void pre() {
+    fact[0] = 1;
+    for (int i = 1; i < MX; i++) fact[i] = (i * fact[i - 1]) % MOD;
+    inv[MX - 1] = Bigmod(fact[MX - 1], MOD - 2LL, MOD);
+    for (int i = MX - 2; i >= 0; i--) inv[i] = (inv[i + 1] * (i + 1LL)) % MOD;
 }
 
 ll nCr(ll n, ll r, ll p) { 
